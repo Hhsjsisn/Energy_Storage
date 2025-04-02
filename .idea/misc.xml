@@ -3,5 +3,5 @@
   <component name="Black">
     <option name="sdkName" value="joblib" />
   </component>
-  <component name="ProjectRootManager" version="2" project-jdk-name="joblib" project-jdk-type="Python SDK" />
+  <component name="ProjectRootManager" version="2" project-jdk-name="st" project-jdk-type="Python SDK" />
 </project>

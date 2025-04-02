@@ -1,18 +1,12 @@
 import time
 from scipy import stats
-import pandas as pd
 import torch.optim as optim
-from matplotlib.font_manager import FontProperties
-from torch.utils.data import DataLoader
 import numpy as np
-import matplotlib.pyplot as plt
 import torch
-import torch.nn as nn
 from sklearn.linear_model import LinearRegression
 from torch.utils.data import Dataset, DataLoader
 from matplotlib.font_manager import FontProperties
 import matplotlib.pyplot as plt
-import five2
 import streamlit as st
 import pandas as pd
 from PIL import Image
@@ -49,6 +43,7 @@ def parse_excel_data1(file_path):
     return x, types
 def map2(file_path,option):
     # 读取Excel文件 # 请替换为你的文件路径
+    plt.figure()
     df = pd.read_excel(file_path)
     font_path = '仿宋_GB2312.ttf'
     font = FontProperties(fname=font_path)
@@ -86,8 +81,8 @@ def map2(file_path,option):
     save_path = f'{option}_materials_comparison1.png'  # 你可以更改文件名或路径
     plt.savefig(save_path, dpi=300, bbox_inches='tight')
     print(f"图片已保存为 {save_path}")
-    # 显示图形
-    plt.show()
+    # # 显示图形
+    # plt.show()
 
 
 # class StandardScaler(nn.Module):

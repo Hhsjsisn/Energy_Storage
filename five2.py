@@ -1,5 +1,7 @@
 import pandas as pd
+from PIL import Image
 import numpy as np
+import  five1
 import matplotlib.pyplot as plt
 from matplotlib.font_manager import FontProperties
 from scipy import stats
@@ -42,6 +44,11 @@ def map2(file_path,option):
     save_path = f'{option}_materials_comparison1.png'  # 你可以更改文件名或路径
     plt.savefig(save_path, dpi=300, bbox_inches='tight')
     print(f"图片已保存为 {save_path}")
-    # 显示图形
+    # # 显示图形
+    # plt.show()
     plt.show()
-map2("data.xlsx","test01")
+files = [
+     "data.xlsx"
+]
+five1.five1(files)
+map2("data.xlsx","test02")
