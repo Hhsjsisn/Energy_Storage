@@ -342,7 +342,6 @@ def plot_results_multiple(all_results,type):
 
     # 存储所有材料的R²值和方程
     all_r2_texts = []
-
     # 第一轮：绘制图形并收集文本数据
     for idx, (material, data) in enumerate(all_results.items(), 1):
         # 将数据展开成x和y的形式
@@ -398,55 +397,40 @@ def plot_results_multiple(all_results,type):
                        linewidth=2)
         )
         material_labels.append(material_style['label'])
+        equation+=f" R² = {r2:.4f}"
+        plt.text(min(x_data),min(y_data),equation, fontsize=12, color='black', verticalalignment='top')
+    # # 设置文本起始位置
+    # r2_y_position = 0.93
+    # equation_y_position = 0.95 - len(all_results) * 0.05
+    #
+    # # 添加背景框
+    # box_height = len(all_r2_texts) * 0.07
+    # plt.gca().add_patch(plt.Rectangle((0.01, r2_y_position - box_height + 0.06),
+    #                                   0.81,  # 框的宽度
+    #                                   box_height,  # 框的高度
+    #                                   transform=plt.gca().transAxes,
+    #                                   facecolor='white',
+    #                                   edgecolor='black',
+    #                                   alpha=0.7,
+    #                                   linewidth=1))
+    #
+    # # 显示所有R²值
+    # for material, r2_text in all_r2_texts:
+    #     plt.text(0.02, r2_y_position, r2_text,
+    #              transform=plt.gca().transAxes,
+    #              color='black',
+    #              fontsize=28)
+    #     r2_y_position -= 0.05
 
-    # 设置文本起始位置
-    r2_y_position = 0.93
-    equation_y_position = 0.95 - len(all_results) * 0.05
-
-    # 添加背景框
-    box_height = len(all_r2_texts) * 0.07
-    plt.gca().add_patch(plt.Rectangle((0.01, r2_y_position - box_height + 0.06),
-                                      0.81,  # 框的宽度
-                                      box_height,  # 框的高度
-                                      transform=plt.gca().transAxes,
-                                      facecolor='white',
-                                      edgecolor='black',
-                                      alpha=0.7,
-                                      linewidth=1))
-
-    # 显示所有R²值
-    for material, r2_text in all_r2_texts:
-        plt.text(0.02, r2_y_position, r2_text,
-                 transform=plt.gca().transAxes,
-                 color='black',
-                 fontsize=28)
-        r2_y_position -= 0.05
-
-
-
-    # 创建两个图例
-    # 流道类型图例
-    # point_legend = ax.legend(handles=point_legend_elements,
-    #                          bbox_to_anchor=(0.31, 0.89),
-    #                          loc='upper right',
-    #                          frameon=True,
-    #                          prop={'size': 23}
-    #                          )
-
-
-
-    # 添加第一个图例回图中
-    # ax.add_artist(point_legend)
 
     plt.xlabel('特征值',fontsize=30,fontproperties=font)
     plt.ylabel('MEA均匀度',fontsize=30,fontproperties=font)
 
-    plt.tick_params(axis='x', labelsize=25)  # 设置x轴刻度标签字体大小
-    plt.tick_params(axis='y', labelsize=25)  # 设置y轴刻度标签字体大小
+    plt.tick_params(axis='x', labelsize=30)  # 设置x轴刻度标签字体大小
+    plt.tick_params(axis='y', labelsize=30)  # 设置y轴刻度标签字体大小
     # 调整布局以确保图例不被裁剪
     plt.tight_layout()
     plt.subplots_adjust(left=0.15,right=0.96)  # 为右侧图例留出空间
-
     plt.savefig(f'{type}_materials_comparison.png', dpi=300, bbox_inches='tight')
     plt.show()
 

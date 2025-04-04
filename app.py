@@ -70,10 +70,10 @@ def map2(file_path,option):
 
     # 在图中显示回归方程和 R²
     equation = f'y = {slope:.4f}x + {intercept:.4f}\n$R^2$ = {r_squared:.4f}'
-    plt.text(min(x), max(y), equation, fontsize=12, color='black', verticalalignment='top')
+    plt.text(min(x), max(y), equation, fontsize=20, color='black', verticalalignment='top')
 
     # 添加标题和标签
-    plt.xlabel('均匀度（预测）',fontproperties=font)
+    plt.xlabel('MEA均匀度（预测）',fontproperties=font)
     plt.ylabel('功率密度',fontproperties=font)
     plt.title('线性回归分析',fontproperties=font)
     plt.grid(False)
@@ -83,25 +83,6 @@ def map2(file_path,option):
     print(f"图片已保存为 {save_path}")
     # # 显示图形
     # plt.show()
-
-
-# class StandardScaler(nn.Module):
-#     def __init__(self):
-#         super(StandardScaler, self).__init__()
-#         self.mean = None
-#         self.std = None
-#
-#     def fit(self, x):
-#         self.mean = x.mean(0, keepdim=True)
-#         self.std = x.std(0, keepdim=True) + 1e-7  # 添加小值避免除零
-#         return self
-#
-#     def transform(self, x):
-#         return (x - self.mean) / self.std
-#
-#     def fit_transform(self, x):
-#         self.fit(x)
-#         return self.transform(x)
 class StandardScaler(nn.Module):
     def __init__(self):
         super(StandardScaler, self).__init__()
@@ -158,8 +139,6 @@ class RegressionNet(nn.Module):
 
     def forward(self, x):
         return self.layers(x)
-
-
 class CustomDataset(Dataset):
     def __init__(self, X, y):
         self.X = torch.FloatTensor(X)
@@ -170,7 +149,6 @@ class CustomDataset(Dataset):
 
     def __getitem__(self, idx):
         return self.X[idx], self.y[idx]
-
 def train_and_evaluate_model(X, y,scaler, device='cpu' if torch.cuda.is_available() else 'cpu'):
     all_data = []
     """训练和评估模型"""
@@ -264,7 +242,6 @@ def train_and_evaluate_model(X, y,scaler, device='cpu' if torch.cuda.is_availabl
     #
     # return model, scaler, X, y, output_np, r2,weights,bias
     return all_data
-
 def train_and_evaluate_model_l(X, y, scaler, device='cpu' if torch.cuda.is_available() else 'cpu'):
     # 转换数据为 Tensor
     X_tensor = torch.FloatTensor(X)
@@ -338,8 +315,6 @@ def predict_and_save(X_new, xlsx_path, model_path='regression_model_l.pth', devi
     # 保存回 Excel 文件
     df.to_excel(xlsx_path, index=False)
     # print(f"预测值已保存到 {xlsx_path} 的 'predict' 列")
-
-
 def plot_results_multiple(all_results,type):
     """绘制多个材料的散点和拟合直线"""
     fig = plt.figure(figsize=(12, 8))
@@ -381,7 +356,6 @@ def plot_results_multiple(all_results,type):
 
     # 存储所有材料的R²值和方程
     all_r2_texts = []
-
     # 第一轮：绘制图形并收集文本数据
     for idx, (material, data) in enumerate(all_results.items(), 1):
         # 将数据展开成x和y的形式
@@ -437,59 +411,43 @@ def plot_results_multiple(all_results,type):
                        linewidth=2)
         )
         material_labels.append(material_style['label'])
+        equation+=f" R² = {r2:.4f}"
+        plt.text(min(x_data),min(y_data),equation, fontsize=20, color='black', verticalalignment='top')
+    # # 设置文本起始位置
+    # r2_y_position = 0.93
+    # equation_y_position = 0.95 - len(all_results) * 0.05
+    #
+    # # 添加背景框
+    # box_height = len(all_r2_texts) * 0.07
+    # plt.gca().add_patch(plt.Rectangle((0.01, r2_y_position - box_height + 0.06),
+    #                                   0.81,  # 框的宽度
+    #                                   box_height,  # 框的高度
+    #                                   transform=plt.gca().transAxes,
+    #                                   facecolor='white',
+    #                                   edgecolor='black',
+    #                                   alpha=0.7,
+    #                                   linewidth=1))
+    #
+    # # 显示所有R²值
+    # for material, r2_text in all_r2_texts:
+    #     plt.text(0.02, r2_y_position, r2_text,
+    #              transform=plt.gca().transAxes,
+    #              color='black',
+    #              fontsize=28)
+    #     r2_y_position -= 0.05
 
-    # 设置文本起始位置
-    r2_y_position = 0.93
-    equation_y_position = 0.95 - len(all_results) * 0.05
-
-    # 添加背景框
-    box_height = len(all_r2_texts) * 0.07
-    plt.gca().add_patch(plt.Rectangle((0.01, r2_y_position - box_height + 0.06),
-                                      0.81,  # 框的宽度
-                                      box_height,  # 框的高度
-                                      transform=plt.gca().transAxes,
-                                      facecolor='white',
-                                      edgecolor='black',
-                                      alpha=0.7,
-                                      linewidth=1))
-
-    # 显示所有R²值
-    for material, r2_text in all_r2_texts:
-        plt.text(0.02, r2_y_position, r2_text,
-                 transform=plt.gca().transAxes,
-                 color='black',
-                 fontsize=28)
-        r2_y_position -= 0.05
-
-
-
-    # 创建两个图例
-    # 流道类型图例
-    # point_legend = ax.legend(handles=point_legend_elements,
-    #                          bbox_to_anchor=(0.31, 0.89),
-    #                          loc='upper right',
-    #                          frameon=True,
-    #                          prop={'size': 23}
-    #                          )
-
-
-
-    # 添加第一个图例回图中
-    # ax.add_artist(point_legend)
 
     plt.xlabel('特征值',fontsize=30,fontproperties=font)
     plt.ylabel('MEA均匀度',fontsize=30,fontproperties=font)
 
-    plt.tick_params(axis='x', labelsize=25)  # 设置x轴刻度标签字体大小
-    plt.tick_params(axis='y', labelsize=25)  # 设置y轴刻度标签字体大小
+    plt.tick_params(axis='x', labelsize=30)  # 设置x轴刻度标签字体大小
+    plt.tick_params(axis='y', labelsize=30)  # 设置y轴刻度标签字体大小
     # 调整布局以确保图例不被裁剪
     plt.tight_layout()
     plt.subplots_adjust(left=0.15,right=0.96)  # 为右侧图例留出空间
 
     plt.savefig(f'{type}_materials_comparison.png', dpi=300, bbox_inches='tight')
     plt.show()
-
-
 def five1(files):
     # try:
         # 设置中文字体
@@ -527,13 +485,35 @@ def five1(files):
         }
     # 绘制所有材料的对比图
     plot_results_multiple(all_results,point_types[0])
-
 # 按钮点击状态
 def click_button():
     st.session_state.clicked = True
 
+# 设置页面标题和样式
 st.set_page_config(page_title="Predict")
+
+st.markdown(
+    """
+    <style>
+    html, body, [class*="css"]  {
+        font-size: 20px !important;
+    }
+    h1 {
+        font-size: 40px !important;
+    }
+    h2 {
+        font-size: 30px !important;
+    }
+    h3 {
+        font-size: 25px !important;
+    }
+    </style>
+    """,
+    unsafe_allow_html=True
+)
+
 st.markdown("# Predict")
+
 
 # 选择输入样本数量（最少 5 个）
 num_samples = st.number_input("选择输入样本数", min_value=5, max_value=10, value=5, step=1)
