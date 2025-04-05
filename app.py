@@ -70,7 +70,7 @@ def map2(file_path,option):
 
     # 在图中显示回归方程和 R²
     equation = f'y = {slope:.4f}x + {intercept:.4f}\n$R^2$ = {r_squared:.4f}'
-    plt.text(min(x), max(y), equation, fontsize=13, color='black', verticalalignment='top')
+    plt.text(0.05, 0.95, equation, fontsize=13, color='black', verticalalignment='top',transform=plt.gca().transAxes)
 
     # 添加标题和标签
     plt.xlabel('MEA均匀度（预测）',fontproperties=font,fontsize=15)
@@ -412,7 +412,7 @@ def plot_results_multiple(all_results,type):
         )
         material_labels.append(material_style['label'])
         equation_with_r2 = f"{equation}\nR² = {r2:.4f}"
-        plt.text(min(x_data), min(y_data), equation_with_r2, fontsize=20, color='black', verticalalignment='top')
+        plt.text(0.05, 0.95, equation_with_r2, fontsize=20, color='black', verticalalignment='top',transform=plt.gca().transAxes)
     # # 设置文本起始位置
     # r2_y_position = 0.93
     # equation_y_position = 0.95 - len(all_results) * 0.05
