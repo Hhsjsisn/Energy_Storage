@@ -70,12 +70,12 @@ def map2(file_path,option):
 
     # 在图中显示回归方程和 R²
     equation = f'y = {slope:.4f}x + {intercept:.4f}\n$R^2$ = {r_squared:.4f}'
-    plt.text(min(x), max(y), equation, fontsize=20, color='black', verticalalignment='top')
+    plt.text(min(x), max(y), equation, fontsize=13, color='black', verticalalignment='top')
 
     # 添加标题和标签
-    plt.xlabel('MEA均匀度（预测）',fontproperties=font)
-    plt.ylabel('功率密度',fontproperties=font)
-    plt.title('线性回归分析',fontproperties=font)
+    plt.xlabel('MEA均匀度（预测）',fontproperties=font,fontsize=15)
+    plt.ylabel('功率密度',fontproperties=font,fontsize=15)
+    # plt.title('线性回归分析',fontproperties=font)
     plt.grid(False)
     # 保存图像
     save_path = f'{option}_materials_comparison1.png'  # 你可以更改文件名或路径
@@ -411,8 +411,8 @@ def plot_results_multiple(all_results,type):
                        linewidth=2)
         )
         material_labels.append(material_style['label'])
-        equation+=f" R² = {r2:.4f}"
-        plt.text(min(x_data),min(y_data),equation, fontsize=20, color='black', verticalalignment='top')
+        equation_with_r2 = f"{equation}\nR² = {r2:.4f}"
+        plt.text(min(x_data), min(y_data), equation_with_r2, fontsize=20, color='black', verticalalignment='top')
     # # 设置文本起始位置
     # r2_y_position = 0.93
     # equation_y_position = 0.95 - len(all_results) * 0.05
